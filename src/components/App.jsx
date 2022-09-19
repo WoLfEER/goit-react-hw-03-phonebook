@@ -17,6 +17,20 @@ export default class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const savedContacts = localStorage.getItem('contact');
+    if (savedContacts) {
+      this.setState({ contacts: JSON.parse(savedContacts) });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem('contact', JSON.stringify(contacts));
+    }
+  }
+
   addUser = (name, number) => {
     const nameNormalize = name.toLowerCase().trim();
     const ifExist = this.state.contacts.find(
@@ -52,14 +66,13 @@ export default class App extends Component {
     );
   };
 
-  deleteContact = e => {
-    const deleteById = e.target.value;
-
-    this.setState(prevState => {
-      const contacts = prevState.contacts;
-      const newArr = contacts.filter(contact => contact.id !== deleteById);
-      return { contacts: newArr };
-    });
+  deleteContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+    // const deleteById = e.target.value;
+    //   const newArr = contacts.filter(contact => contact.id !== deleteById);
+    //   return { contacts: newArr };
   };
 
   render() {

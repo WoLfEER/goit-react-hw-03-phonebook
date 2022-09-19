@@ -8,7 +8,7 @@ const ContactList = ({ data, deleteContact }) => (
       <Item key={id}>
         <p>Name: &nbsp;{name}</p>
         <p>Number: &nbsp;{number}</p>
-        <Button value={id} type="button" onClick={deleteContact}>
+        <Button value={id} type="button" onClick={() => deleteContact(id)}>
           Delete
         </Button>
       </Item>
